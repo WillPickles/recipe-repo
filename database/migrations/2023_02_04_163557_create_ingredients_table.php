@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('ingredients', function (Blueprint $table) {
             $table->id();
             $table->string('ingredient_name');
-            $table->text('ingredient_description');
+            $table->text('ingredient_description')->nullable();
             $table->enum('ingredient_type', ['meat_fish', 'vegetables', 'fruit', 'grain_nuts_baking', 'herb_spice', 'dairy', 'fats_oils', 'pasta_rice_pulses', 'other'])->nullable();
             $table->timestamps();
         });

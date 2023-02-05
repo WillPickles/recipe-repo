@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\IngredientController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +17,7 @@ use App\Http\Controllers\RecipeController;
 */
 Route::middleware('api')->group(function () {
     Route::resource('recipes', RecipeController::class);
+    Route::resource('ingredients', IngredientController::class);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
