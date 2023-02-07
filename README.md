@@ -1,4 +1,4 @@
-<h2 align="center"></h2>
+<h2 align="center">Recipe Repo</h2>
 
 ## About Recipe Repo
 
