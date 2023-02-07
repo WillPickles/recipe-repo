@@ -22,6 +22,7 @@
         "vue": "^3.2.41"
     },
     "dependencies": {
+        "flowbite": "^1.6.3",
         "laravel-mix": "^6.0.49",
         "postcss-import": "^15.1.0",
         "postcss-nesting": "^11.1.0",

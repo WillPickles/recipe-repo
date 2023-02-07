@@ -19,4 +19,8 @@ class Recipe extends Model
         'description',
         'method'
     ];
+
+    public function users(){
+        return $this->belongsToMany(User::class, 'user_recipe_relationship');
+    }
 }

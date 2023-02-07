@@ -16,7 +16,13 @@ use App\Http\Controllers\IngredientController;
 |
 */
 Route::middleware('api')->group(function () {
+    //Recipes
     Route::resource('recipes', RecipeController::class);
+    
+    Route::get('/recipes/user/{user}', [RecipeController::class, 'getUserRecipes']);
+    Route::get('/recipes/random/{user}/{num}', [RecipeController::class, 'getRandomRecipes']);
+
+    //Ingredients
     Route::resource('ingredients', IngredientController::class);
 });
 

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Recipe;
 use App\Models\Ingredient;
+use App\Models\User;
+use App\Models\DB;
 
 class RecipeController extends Controller
 {
@@ -53,5 +56,39 @@ class RecipeController extends Controller
         $recipe = Recipe::find($id);
         $recipe->delete();
         return response()->json('recipe deleted!');
+    }
+
+    //Get Recipes for specific user
+    public function getUserRecipes($userId)
+    {
+        $user = User::findOrFail($userId);
+
+        $recipes = $user->recipes()->get();
+
+        return response()->json($recipes);
+    }
+
+    //Get X numbers of random recipes
+    public function getRandomRecipes($user, $num)
+    {
+        //Check number specified is less than the number of array entries
+        $user = User::findOrFail($user);
+
+        $recipeList = $user->recipes()->get()->toArray();
+
+        
+        if (count($recipeList) < $num){
+            return response()->json('Not enough recipes');
+        } else {
+            $recipe_key = array_rand($recipeList, $num);
+            $recipes = [];
+            foreach ($recipe_key as $recipe){
+                $newRecipe = $recipeList[$recipe];
+                array_push($recipes, $newRecipe);
+            };
+            return response()->json($recipes);
+        }
+        
+        
     }
 }
