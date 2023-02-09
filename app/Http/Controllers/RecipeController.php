@@ -91,4 +91,9 @@ class RecipeController extends Controller
         
         
     }
+
+    public function test(Request $request)
+    {
+        return response()->json($request);
+    }
 }
