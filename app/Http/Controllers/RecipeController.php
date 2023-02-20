@@ -94,6 +94,7 @@ class RecipeController extends Controller
 
     public function test(Request $request)
     {
-        return response()->json($request);
+        $recipes = Recipe::paginate(10);
+        return response()->json($recipes);
     }
 }

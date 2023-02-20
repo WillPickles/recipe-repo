@@ -40,7 +40,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/recipes', function() {
-        return Inertia::render('Recipes');
+        return Inertia::render('Recipes', [
+            'recipes' => Auth::user()->recipes()->paginate(4)->through(fn($recipe) => [
+                'id' => $recipe->id,
+                'recipe_name' => $recipe->recipe_name
+            ])
+        ]);
     })->name('recipes');
 
     Route::get('/settings', function() {
