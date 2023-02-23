@@ -6,6 +6,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Models\Recipe;
+use Illuminate\Support\Facades\Request;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -41,10 +43,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/recipes', function() {
         return Inertia::render('Recipes', [
-            'recipes' => Auth::user()->recipes()->paginate(4)->through(fn($recipe) => [
-                'id' => $recipe->id,
-                'recipe_name' => $recipe->recipe_name
-            ])
+            'recipes' => Auth::user()
+                            ->recipes()
+                            ->when(Request::input('search'), function($query, $search){
+                                $query->where('recipe_name', 'like', "%{$search}%");
+                            })->paginate(4)
         ]);
     })->name('recipes');
 

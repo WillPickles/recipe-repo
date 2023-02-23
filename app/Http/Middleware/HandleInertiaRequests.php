@@ -5,6 +5,8 @@ namespace App\Http\Middleware;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
+use Inertia\Inertia;
+use Illuminate\Support\Facades\App;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -18,9 +20,13 @@ class HandleInertiaRequests extends Middleware
     /**
      * Determine the current asset version.
      */
-    public function version(Request $request): string|null
+    public function version(Request $request)
     {
-        return parent::version($request);
+        if (App::environment('production')) {
+            Inertia::version(function () {
+                return md5_file(public_path('mix-manifest.json'));
+            });
+      }
     }
 
     /**

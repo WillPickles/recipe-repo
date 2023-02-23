@@ -1,14 +1,25 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 import { data } from 'browserslist';
 import { ref, watch, computed, defineProps } from "vue";
-import {Inertia} from "@inertiajs/inertia";
+import { Inertia } from "@inertiajs/inertia";
 import Pagination from "../Components/Pagination.vue";
 
 defineProps({recipes: Object});
 
+let search = ref('');
 
+watch(search, value => {
+    console.log(value);
+    /*Inertia.get('/recipes', { search: value }, {
+        preserveState: true
+    });
+    */
+   router.get('/recipes', { search: value }, {
+        preserveState: true
+    });
+});
 
 </script>
 
@@ -34,7 +45,7 @@ defineProps({recipes: Object});
                 <!-- Pagination -->
                 <div class="mt-6">
 
-                <Pagination :links="recipes.links" />
+                    <Pagination :links="recipes.links" />
 
                 </div>
 
