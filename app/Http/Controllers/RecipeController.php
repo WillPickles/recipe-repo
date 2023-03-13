@@ -4,10 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 use App\Models\Recipe;
 use App\Models\Ingredient;
 use App\Models\User;
-use App\Models\DB;
+use Inertia\Inertia;
+use Inertia\Response;
+use DB;
+
 
 class RecipeController extends Controller
 {
@@ -32,7 +37,12 @@ class RecipeController extends Controller
             'method' => $request->input('method')
         ]);
         $recipe->save();
-        return response()->json('Recipe created!');
+
+        //Create user <-> recipe relationship
+        DB::insert('insert into user_recipe_relationship (user_id, recipe_id) values (?, ?)', [$request->input('user'), $recipe->id]);
+        
+        return Inertia::location('/recipes');
+        //return response()->json('Recipe created!');
     }
 
     //Show a specific recipe

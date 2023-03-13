@@ -47,12 +47,17 @@ Route::middleware('auth')->group(function () {
                             ->recipes()
                             ->when(Request::input('search'), function($query, $search){
                                 $query->where('recipe_name', 'like', "%{$search}%");
-                            })->paginate(4)
+                            })->paginate(10)
+                            ->withQueryString(),
+            'filters' => Request::only(['search'])
         ]);
     })->name('recipes');
 
+    Route::get('/recipes/create', function() {
+        return Inertia::render('Recipes/Create');
+    });
+
     Route::get('/settings', function() {
-        sleep(2);
         return Inertia::render('Settings');
     })->name('settings');
 });
